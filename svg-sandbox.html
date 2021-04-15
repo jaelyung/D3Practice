@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        svg .styled-circle{
+            fill: darkmagenta;
+            stroke: black;
+            stroke-width:5;
+        }
+        .blue-group{
+            fill: blue;
+            stroke-width: 3;
+        }
+        .red-group{
+            fill: red;
+            stroke-width: 4;
+            font-weight:bold;
+        }
+        .green-group{
+            fill: green;
+            stroke-width: 2;
+            font-family: Arial;
+            fill-opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <p>SVG sandbox</p>
+    <svg width="1500px" height="500px">
+        <circle cx="120" cy="50" r="20" class="styled-circle"/>
+        <circle cx="15" cy="50" r="10" class="styled-circle"/>
+        <circle cx="60" cy="100" r="50" class="styled-circle"/>
+        <rect x="0" y="0" width="100" height="20"/>
+        <rect x="120" y="0" width="100" height="20" rx="10" ry="10" />
+        <text x="250" y="15" font-size="20">SVG sandbox, now in SVG only</text>
+        <g class="blue-group" transform="scale(1.2)">
+            <text x="250" y="30">Blue group</text>
+            <rect x="250" y="50" width="50" height="50" rx="10" ry="10" />
+            <polygon points="350,30 320, 70 380, 50" />
+            <line x1="310" y1="75" x2="380" y2="90" stroke="blue"/>
+        </g>
+        <g class="red-group" transform="translate(200)">
+            <text x="250" y="30">Red group</text>
+            <rect x="250" y="50" width="50" height="50" rx="10" ry="10" />
+            <polygon points="350,30 320, 70 380, 50" />
+            <line x1="310" y1="75" x2="380" y2="90" stroke="Red"/>
+        </g>
+        <g class="green-group" transform="translate(400,0) rotate(90)">
+            <text x="250" y="30">Green group</text>
+            <rect x="250" y="50" width="50" height="50" rx="10" ry="10" />
+            <polygon points="350,30 320, 70 380, 50" />
+            <line x1="310" y1="75" x2="380" y2="90" stroke="Green"/>
+        </g>
+        
+    </svg>
+    
+</body>
+</html>

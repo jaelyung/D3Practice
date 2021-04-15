@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="demo"></p>
+    <p id="demo2"></p>
+    <p id="demo3"></p>
+
+    <script>
+        var txt = "";
+        var person = {fname:"John", lname:"Doe", age:25};
+        var x;
+        for(x in person){
+            txt += person[x] + " ";
+        }
+        document.getElementById("demo").innerHTML = txt;
+
+        var txt2 = "";
+        var numbers = [45,4,9,16,25];
+        var y;
+        for(y in numbers){
+            txt2 += numbers[y] + "<br>";
+        }
+        document.getElementById("demo2").innerHTML = txt2;
+
+        var txt3 = "";
+        var numbers2 = [45,4,9,16,25];
+        var z;
+        numbers2.forEach(myFunction);
+        document.getElementById("demo3").innerHTML = txt3;
+
+        function myFunction(value, index, array){
+            txt3 = txt3 + value + "<br>";
+        }
+    </script>
+</body>
+</html>
