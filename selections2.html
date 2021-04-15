@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    <svg id="circle"></svg>
+    <div id="footer"></div>
+    <script>
+        var makeHeader = d3.select("#header").append("p")
+            .text("Is this a circle?");
+        var makeCircle = d3.select("svg").append("circle")
+            .attr("r",10)
+            .attr("cx",20)
+            .attr("cy",20)
+            .style("fill", "yellow");
+        var makeFooter = d3.select("#footer").append("p")
+            .attr("id","footerTxt")
+            .text("Yeah, looks like it")
+            .style("fond", "bold");
+        d3.select("svg").attr("height", "50px");
+        d3.selectAll("p").text("stop reapeating me!");
+    </script>
+</body>
+</html>
