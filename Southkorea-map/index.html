@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        svg { background-color: #eee; }
+        svg .municipality { fill: red;}
+        svg .municipality:hover { stroke: #333;}
+        svg .municipality.p0 { fill: rgb(247,251,255);}
+        svg .municipality.p1 { fill: rgb(222,235,247);}
+        svg .municipality.p2 { fill: rgb(198,219,239);}
+        svg .municipality.p3 { fill: rgb(158,202,225);}
+        svg .municipality.p4 { fill: rgb(107,174,214);}
+        svg .municipality.p5 { fill: rgb(66,146,198);}
+        svg .municipality.p6 { fill: rgb(33,113,181);}
+        svg .municipality.p7 { fill: rgb(8,81,156);}
+		svg .municipality.p8 { fill: rgb(8,48,107);}
+        div.tooltip {	
+            position: absolute;			
+            text-align: center;		
+            padding: 5px;				
+            font-size: 4px;		
+            background: lightsteelblue;	
+            border: 0px;		
+            border-radius: 8px;			
+            pointer-events: none;			
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script>
+        var width = 600,
+            height = 700;
+
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        var projection = d3.geo.mercator()
+            .center([128,36])
+            .scale(5000)
+            .translate([width/2, height/2]);
+
+        var path = d3.geo.path()
+            .projection(projection);
+
+        var quantize = d3.scale.quantize()
+            .domain([0, 1000])
+            .range(d3.range(9).map(function(i){return "p" + i;}));
+
+        var popByName = d3.map();
+
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+
+        queue()
+            .defer(d3.json, "skorea-municipalities-2018-topo-simple.json")
+            .defer(d3.csv, "population.csv", function(d){
+                popByName.set(d.name, + d.population);
+            }).await(ready);
+        
+        function ready(error, data) {
+            var features = topojson.feature(data, data.objects["skorea_municipalities_2018_geo"]).features;
+
+            /*
+            svg.selectAll("path")
+                .data(features)
+                .enter().append("path")
+                .attr("class", function(d){
+                    return "municipality " + quantize(popByName.get(d.properties.name)/path.area(d));})
+                .attr("d", path)
+                .attr("id", function(d){ return d.properties.name;});
+                */
+
+            svg.selectAll("path")
+                .data(features)
+                .enter().append("path")
+                .attr("class", function(d){
+                    return "municipality " + quantize(popByName.get(d.properties.name)/path.area(d));})
+                .attr("d", path)
+                .attr("id", function(d){ return d.properties.name;})
+                .on("mouseover", function(d){
+                    div.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    div.html( d.properties.name )
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY-28) + "px")
+                        .attr("transform", "translate(" + path.centroid(d) + ")")
+                        .attr("dy", ".35em");
+                })
+                .on("mouseout", function(d){
+                    div.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+            
+            /*
+            svg.selectAll("text")
+                .data(features.filter(function(d){
+                    return d.properties.name;
+                }))
+                .enter().append("text")
+                .attr("transform", function(d){
+                    return "translate(" + path.centroid(d) + ")";
+                })
+                .attr("dy", ".35em")
+                .attr("class", "region-label")
+                .text(function(d){return d.properties.name;});
+            */
+        }
+    </script>
+</body>
+</html>
